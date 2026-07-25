@@ -1,7 +1,8 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { TOKEN_KEY } from '../utils/constants';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const rawApiUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, '');
+const API_URL = rawApiUrl.endsWith('/api') ? rawApiUrl : `${rawApiUrl}/api`;
 
 const api = axios.create({
   baseURL: API_URL,
@@ -9,6 +10,7 @@ const api = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
 
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
