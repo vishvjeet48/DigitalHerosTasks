@@ -41,9 +41,18 @@ app.use(limiter);
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true }));
 
+app.get('/', (_req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'LeadDesk API Server is Online',
+    health: '/api/health',
+  });
+});
+
 app.get('/api/health', (_req, res) => {
   res.status(200).json({ success: true, message: 'LeadDesk Mini API is running' });
 });
+
 
 app.use('/api/auth/login', authLimiter);
 app.use('/api', routes);
